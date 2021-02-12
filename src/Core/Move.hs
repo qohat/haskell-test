@@ -50,6 +50,6 @@ move 'I' l = turnLeft l
 move _ l = l
 
 run :: [Char] -> Location -> Location
-run [] l = l
-run (h:t) l = run t (move h l)
---run t l = foldl (flip move) l t
+--run [] l = l
+--run (h:t) l = run t (move h l)
+run t l = foldl (flip move) l t
