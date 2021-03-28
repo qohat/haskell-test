@@ -19,12 +19,11 @@ class Monad m => FilesRW m where
     create :: Folder -> m FilePath
 
 instance FilesRW IO where
-  read (Folder path) = do
+    read (Folder path) = do
         fPaths <- listDirectory path
         let fullPaths = buildPath path fPaths
         readFiles fullPaths
-
-    where
+        where
         buildPath :: FilePath -> [FilePath] -> [FilePath]
         buildPath path [] = []
         buildPath path fPaths = (path ++) <$> filter (\a -> takeExtension a == ".txt") fPaths
@@ -33,15 +32,15 @@ instance FilesRW IO where
         readFiles [] = pure []
         readFiles fps = sequence $ (\fps' -> toFile fps' <$> readFile fps') <$> fps
 
-  write (Folder folder) (File (Name n) lns) = do
+    write (Folder folder) (File (Name n) lns) = do
         path <- create (Folder folder)
         writeFile (folder ++ n) (unlines (map show lns))  
   
-  create (Folder path) = do
+    create (Folder path) = do
         _ <- removeFolder path
         _ <- createDirectoryIfMissing True path
         pure path
-    where 
+        where 
         removeFolder :: FilePath -> IO ()
         removeFolder path = do 
             exists <- doesDirectoryExist path
