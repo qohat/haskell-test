@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Core.Move
-    (Location(..), X(..), Y(..), Direction(..), run)
+    (Location(..), X(..), Y(..), Direction(..), run, Shipper(..), Id(..))
     where
 
 import Control.Lens

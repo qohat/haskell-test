@@ -1,2 +1,0 @@
-module Adapter.DeliveryRepo where
-    
