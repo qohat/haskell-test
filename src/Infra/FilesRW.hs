@@ -10,13 +10,13 @@ newtype Folder = Folder String
 
 data File = File Name [Line]
 
-toFile :: FilePath -> String -> File
-toFile fp s = File (Name fp) (map Line (lines s))
-
 class Monad m => FilesRW m where 
     read :: Folder -> m [File]
     write :: Folder -> File -> m ()
     create :: Folder -> m FilePath
+
+toFile :: FilePath -> String -> File
+toFile fp s = File (Name fp) (map Line (lines s))
 
 instance FilesRW IO where
     read (Folder path) = do
