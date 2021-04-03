@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 903066153e99b0fc2b3bdfe198708a61d4de54b88d13a5d1683dbeb260f556a9
+-- hash: b1fd8f31e8c4b0780bfb295acc0e5b3109c99d55843aae707bd1c162d0423ee2
 
 name:           shipping
 version:        0.1.0.0
@@ -29,14 +29,13 @@ library
   exposed-modules:
       Adapter.RepoConfig
       Adapter.ShippingRepo
+      App
       Application.ServiceConfig
       Application.ShippingService
       Core.Move
       Core.MoveW
       Domain.Shipping
       Infra.FilesRW
-      Lib
-      TypeClasses.Begining
   other-modules:
       Paths_shipping
   hs-source-dirs:

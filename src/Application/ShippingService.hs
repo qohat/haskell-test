@@ -1,4 +1,5 @@
 module Application.ShippingService 
+    (ShippingService(..))
     where
 
 import Control.Concurrent.Async (mapConcurrently)
