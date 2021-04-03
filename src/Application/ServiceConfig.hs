@@ -3,7 +3,7 @@ module Application.ServiceConfig where
 import Data.Maybe (fromJust, fromMaybe)
 import System.Environment (lookupEnv)
     
-data ServiceConfig = ServiceConfig { maxShipments :: Int, shippingCoverange :: Int }
+data ServiceConfig = ServiceConfig { maxShipments :: Int, shippingCoverage :: Int }
 
 getConfig :: IO ServiceConfig
 getConfig = do

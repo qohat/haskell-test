@@ -2,24 +2,35 @@ module Application.ShippingService
     where
 
 import Control.Concurrent.Async (mapConcurrently)
-import Core.Move (Shipper(..),X (X))
-import Application.ServiceConfig (ServiceConfig (shippingCoverange, maxShipments), getConfig)
+import Core.Move (Shipper(..),X (X, _x), Y (Y, _y), Location (_orde, _absc))
+import Application.ServiceConfig (ServiceConfig (shippingCoverage, maxShipments), getConfig)
 import qualified Adapter.ShippingRepo as R
 
 class Monad m => ShippingService m where
-    execute :: m ()
+    execute :: m [()]
 
 instance ShippingService IO where
     execute = do
         config <- getConfig
         shippers <- R.findAll
-        mapConcurrently a -> IO b t a
+        let coveredShippers = coveredLocations config <$> shippers
+        let shippersTaken = takeMaxLocations config <$> coveredShippers
+        saveAll shippersTaken
+        where
+            saveAll :: [Shipper] -> IO [()]
+            saveAll shippers = sequence $ R.save <$> shippers
         
 
-coveredLocations :: ServiceConfig -> Shipper -> Shipper
+coveredLocations, takeMaxLocations :: ServiceConfig -> Shipper -> Shipper
 coveredLocations config (Shipper id locations) = 
-    Shipper id <$> filter (\l -> X l <= shippingCoverange config && Y l <= shippingCoverange config) locations
+    Shipper id $ filterLocations config locations
 
-takeMaxLocations :: ServiceConfig -> Shipper -> Shipper
 takeMaxLocations config (Shipper id locations) =
     Shipper id $ take (maxShipments config) locations
+
+filterLocations :: ServiceConfig -> [Location] -> [Location]
+filterLocations config = filter
+      (\ l
+         -> abs (_x (_absc l)) <= shippingCoverage config
+              && abs (_y (_orde l)) <= shippingCoverage config)
+
