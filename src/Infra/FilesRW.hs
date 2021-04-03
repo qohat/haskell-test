@@ -39,7 +39,7 @@ instance FilesRW IO where
         writeFile (folder ++ n) (unlines (map show lns))  
   
     create (Folder path) = do
-        _ <- removeFolder path
+        -- _ <- removeFolder path
         _ <- createDirectoryIfMissing True path
         pure path
         where 
