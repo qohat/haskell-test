@@ -16,11 +16,14 @@ makeLenses ''Y
 
 data Direction = North | South | West | East deriving (Show, Eq)
 
-data Location = Location { _absc :: X, _orde :: Y, _dir :: Direction } deriving (Show)
+data Location = Location { _absc :: X, _orde :: Y, _dir :: Direction }
 makeLenses ''Location
 instance Eq Location where
     (==) l1 l2 = _absc l1 == _absc l2 && _orde l1 == _orde l2 && _dir l1 == _dir l2
     (/=) l1 l2 = _absc l1 /= _absc l2 && _orde l1 /= _orde l2 && _dir l1 /= _dir l2
+
+instance Show Location where 
+    show (Location (X x) (Y y) direction) = "("++ show x ++ ", " ++ show y ++") " ++ show direction
 
 data Shipper = Shipper { id :: Id, locations :: [Location] }
 

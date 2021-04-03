@@ -18,15 +18,6 @@ main = hspec $ do
             buildPath "/home/quziel/Repos/shipping/" ["hello.txt", "hola.txt", "hi.pdf"]
               `shouldBe` ["/home/quziel/Repos/shipping/hello.txt", "/home/quziel/Repos/shipping/hola.txt"]
 
-    --describe "Write file" $ do    
-        --it "Should Write file paths" $ do
-            --rWFile            
-
-rWFile :: IO ()
-rWFile = do
-    s <- readFile "/home/quziel/Repos/shipping/Setup.hs"
-    writeFile "/home/quziel/Repos/shipping/hello.txt" s
-
 buildPath :: FilePath -> [FilePath] -> [FilePath]
 buildPath path [] = []
 buildPath path fPaths = (path ++) <$> filter (\a -> takeExtension a == ".txt") fPaths

@@ -1,11 +1,13 @@
 module Infra.FilesRW 
     where
 
-import System.FilePath ( takeExtension )
+import System.FilePath ( takeExtension, takeBaseName )
 import System.Directory ( listDirectory, doesDirectoryExist, createDirectory, createDirectoryIfMissing, removeDirectoryRecursive )
 
 newtype Name = Name String
-newtype Line = Line String deriving Show
+newtype Line = Line String
+instance Show Line where
+    show (Line l) = l
 newtype Folder = Folder String
 
 data File = File Name [Line]
@@ -16,7 +18,7 @@ class Monad m => FilesRW m where
     create :: Folder -> m FilePath
 
 toFile :: FilePath -> String -> File
-toFile fp s = File (Name fp) (map Line (lines s))
+toFile fp s = File (Name $ takeBaseName fp) (map Line (lines s))
 
 instance FilesRW IO where
     read (Folder path) = do
